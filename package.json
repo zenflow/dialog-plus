@@ -1,0 +1,43 @@
+{
+  "name": "dialog-plus",
+  "version": "0.1.0",
+  "main": "dist/dialog-plus.cjs.js",
+  "module": "dist/dialog-plus.esm.js",
+  "browser": "dist/dialog-plus.umd.js",
+  "license": "MIT",
+  "author": {
+    "name": "Matthew Francis Brunetti",
+    "email": "zenflow87@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zenflow/dialog-plus"
+  },
+  "bugs": {
+    "url": "https://github.com/zenflow/dialog-plus/issues"
+  },
+  "homepage": "https://github.com/zenflow/dialog-plus#readme",
+  "devDependencies": {
+    "@babel/core": "^7.2.2",
+    "@babel/preset-env": "^7.3.1",
+    "babel-core": "7.0.0-bridge.0",
+    "babel-jest": "^24.0.0",
+    "jest": "^24.0.0",
+    "rollup": "^1.1.2",
+    "rollup-plugin-babel": "^4.3.2",
+    "rollup-plugin-commonjs": "^9.2.0",
+    "rollup-plugin-node-resolve": "^4.0.0",
+    "zenflow-lint-js": "^2.0.0"
+  },
+  "scripts": {
+    "lint": "zenflow-lint-js",
+    "lint-fix": "zenflow-lint-js --fix",
+    "test": "jest --ci",
+    "test-watch": "jest --watch --notify",
+    "build": "rollup --config",
+    "build-watch": "rollup --config --watch"
+  },
+  "files": [
+    "dist"
+  ]
+}

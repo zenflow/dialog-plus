@@ -1,0 +1,7 @@
+- rollup.dev.config.js & rollup.prod.config.js
+- minify output
+- dist/ -> cjs/, umd/, esm/
+- travis CI
+- test coverage
+- semantic-release
+- test on various browsers
