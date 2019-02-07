@@ -5,12 +5,12 @@ import babel from 'rollup-plugin-babel'
 
 export default [
   {
-    input: 'src/main.js',
+    input: 'src/dialogplus.js',
     external: [],
     output: [
       { file: pkg.main, format: 'cjs' },
       { file: pkg.module, format: 'es' },
-      { file: pkg.browser, format: 'umd', name: 'DialogPlus' },
+      { file: pkg.browser, format: 'umd', name: 'dialogplus' },
     ],
     plugins: [
       resolve(),

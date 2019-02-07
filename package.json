@@ -1,9 +1,9 @@
 {
   "name": "dialog-plus",
   "version": "0.1.0",
-  "main": "dist/dialog-plus.cjs.js",
-  "module": "dist/dialog-plus.esm.js",
-  "browser": "dist/dialog-plus.umd.js",
+  "main": "dist/dialogplus.cjs.js",
+  "module": "dist/dialogplus.esm.js",
+  "browser": "dist/dialogplus.umd.js",
   "license": "MIT",
   "author": {
     "name": "Matthew Francis Brunetti",

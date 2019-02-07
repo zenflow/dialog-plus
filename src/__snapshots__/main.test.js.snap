@@ -1,8 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`DialogPlus DialogPlus(string) 1`] = `
-Object {
-  "doubled": "coolcool",
-  "string": "cool",
-}
-`;

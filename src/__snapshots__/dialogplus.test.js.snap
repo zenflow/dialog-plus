@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Dialogplus Dialogplus(string) 1`] = `
+_class {
+  "elements": Object {
+    "content": <div
+      class="dialog-plus--content"
+    >
+      <p>
+        test
+      </p>
+    </div>,
+    "dialog": <div
+      style="display: block;"
+    >
+      <div
+        class="dialog-plus--content"
+      >
+        <p>
+          test
+        </p>
+      </div>
+    </div>,
+  },
+  "options": Object {
+    "content": "<p>test</p>",
+  },
+}
+`;
