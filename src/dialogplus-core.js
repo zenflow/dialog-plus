@@ -1,20 +1,34 @@
 function error(message) {
-  return new Error(`dialog-plus: ${message}`)
+  return new Error(`dialogplus-core: ${message}`)
 }
 
 class DialogplusCore {
   static withPlugins(...plugins) {
-    return plugins.reduce((Dialog, plugin) => plugin(Dialog), this)
+    return plugins.reduce((Super, plugin) => plugin(Super), this)
   }
-  static fire(options) {
-    // TODO: shorthand
+  static defaultOptions = {
+    content: '',
+  }
+  static withOptions(options) {
+    return (Super =>
+      class extends Super {
+        static defaultOptions = { ...Super.defaultOptions, ...options }
+      })(this)
+  }
+  static _argsToOptions(args) {
+    // TODO: shorthand form
+    const [options = {}] = args
+    return options
+  }
+  static fire(...args) {
+    const options = this._argsToOptions(args)
     return new this(options)
   }
 
   elements = {}
   constructor(options) {
     this._create() // TODO: move this into _setOptions
-    this.options = options // TODO: use this.constructor.defaults
+    this.options = { ...this.constructor.defaultOptions, ...options }
     this._setOptions(true, this.options)
     this._show()
   }
@@ -29,7 +43,7 @@ class DialogplusCore {
     document.body.appendChild(this.elements.dialog)
 
     this.elements.content = document.createElement('div')
-    this.elements.content.className = 'dialog-plus--content' // TODO: is this BEM?
+    this.elements.content.className = 'dialogplus--content' // TODO: is this BEM?
     this.elements.dialog.appendChild(this.elements.content)
   }
   _setOptions(isInitial, { content, ...rest }) {

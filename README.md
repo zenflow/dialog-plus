@@ -1,4 +1,4 @@
-# dialog-plus
+# dialogplus
 
 > The ultimate browser dialog library
 

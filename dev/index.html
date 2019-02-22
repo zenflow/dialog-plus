@@ -5,19 +5,23 @@ TODO: multiple editable+executable samples in <textarea>s
 <body>
 <style type="text/css">
   button {
-    font-size: xx-large;
+    font-size: large;
   }
 </style>
 <main>
-  <button>Fire</button>
+  <button id="fire-with-default-content">Fire with default content</button>
+  <button id="fire-with-custom-content">Fire with custom content</button>
 </main>
 <script src="../dist/dialogplus.umd.js"></script>
 <script>
+  let MyDialog = dialogplus.Dialogplus.withOptions({ content: '<p>default content</p>' })
+
   let dialog
-  document.querySelector('button').addEventListener('click', () => {
-    dialog = dialogplus.Dialogplus.fire({
-      content: '<p><strong>hello</strong>&nbsp<em>world</em></p>'
-    })
+  document.getElementById('fire-with-default-content').addEventListener('click', () => {
+    dialog = MyDialog.fire()
+  })
+  document.getElementById('fire-with-custom-content').addEventListener('click', () => {
+    dialog = MyDialog.fire({ content: '<p><strong>custom</strong> content</p>' })
   })
 </script>
 </body>
