@@ -11,9 +11,8 @@ class DialogplusCore {
     return new this(options)
   }
 
-  // elements = {} // TODO: use property initializer
+  elements = {}
   constructor(options) {
-    this.elements = {} // TODO: use property initializer
     this._create() // TODO: move this into _setOptions
     this.options = options // TODO: use this.constructor.defaults
     this._setOptions(true, this.options)
