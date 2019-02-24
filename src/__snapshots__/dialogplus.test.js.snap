@@ -4,17 +4,17 @@ exports[`Dialogplus Dialogplus(string) 1`] = `
 _class {
   "elements": Object {
     "content": <div
-      class="dialog-plus--content"
+      class="dialogplus--content"
     >
       <p>
         test
       </p>
     </div>,
     "dialog": <div
-      style="display: block;"
+      class="dialogplus--dialog"
     >
       <div
-        class="dialog-plus--content"
+        class="dialogplus--content"
       >
         <p>
           test

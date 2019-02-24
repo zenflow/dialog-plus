@@ -1,30 +1,31 @@
 import resolve from 'rollup-plugin-node-resolve'
-import commonjs from 'rollup-plugin-commonjs'
 import babel from 'rollup-plugin-babel'
+import commonjs from 'rollup-plugin-commonjs'
+import postcss from 'rollup-plugin-postcss'
+import autoprefixer from 'autoprefixer'
 import { terser } from 'rollup-plugin-terser'
 import pkg from './package.json'
 
-const getBanner = file => `\
+const getConfig = ({ minimize, formats, sourcemap }) => {
+  return {
+    input: 'src/dialogplus.js',
+    external: [],
+    output: formats.map(format => {
+      const fileExt = format + (minimize ? '.min' : '') + '.js'
+      const file = `dist/dialogplus.${fileExt}`
+      return {
+        format,
+        file,
+        sourcemap: sourcemap ? 'inline' : false,
+        name: 'dialogplus',
+        globals: {},
+        banner: `\
 /** @preserve
   * package: ${pkg.name} v${pkg.version}
   * file: ${file}
   * homepage: ${pkg.homepage}
   * license: ${pkg.license}
-  **/\n`
-
-const getConfig = ({ minify, formats }) => {
-  return {
-    input: 'src/dialogplus.js',
-    external: [],
-    output: formats.map(format => {
-      const file = `dist/dialogplus.${format + (minify ? '.min' : '') + '.js'}`
-      return {
-        format,
-        file,
-        banner: getBanner(file),
-        sourcemap: true,
-        name: 'dialogplus',
-        globals: {},
+  **/\n`,
       }
     }),
     plugins: [
@@ -33,7 +34,12 @@ const getConfig = ({ minify, formats }) => {
         exclude: 'node_modules/**',
       }),
       commonjs(),
-      minify &&
+      postcss({
+        plugins: [autoprefixer()],
+        minimize: minimize,
+        sourceMap: sourcemap ? 'inline' : false,
+      }),
+      minimize &&
         terser({
           output: {
             comments: (_, { value }) => /@preserve/.test(value),
@@ -43,8 +49,9 @@ const getConfig = ({ minify, formats }) => {
   }
 }
 
-export default (process.env.IS_DEVELOPMENT_BUILD
-  ? getConfig({ minify: false, formats: ['umd'] })
-  : [false, true].map(minify =>
-      getConfig({ minify, formats: ['cjs', 'es', 'umd'] }),
-    ))
+export default (process.env.NODE_ENV === 'production'
+  ? [
+      getConfig({ minimize: false, formats: ['umd', 'cjs'], sourcemap: false }),
+      getConfig({ minimize: true, formats: ['umd'], sourcemap: false }),
+    ]
+  : getConfig({ minimize: false, formats: ['umd'], sourcemap: true }))

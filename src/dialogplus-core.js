@@ -1,3 +1,5 @@
+import './dialogplus-core.css'
+
 function error(message) {
   return new Error(`dialogplus-core: ${message}`)
 }
@@ -16,7 +18,7 @@ class DialogplusCore {
       })(this)
   }
   static _argsToOptions(args) {
-    // TODO: shorthand form
+    // TODO: eliminate this & add *different* methods for shorthand form
     const [options = {}] = args
     return options
   }
@@ -27,10 +29,9 @@ class DialogplusCore {
 
   elements = {}
   constructor(options) {
-    this._create() // TODO: move this into _setOptions
+    this._create()
     this.options = { ...this.constructor.defaultOptions, ...options }
     this._setOptions(true, this.options)
-    this._show()
   }
   setOptions(options) {
     this.options = { ...this.options, ...options }
@@ -38,12 +39,13 @@ class DialogplusCore {
   }
 
   _create() {
+    // TODO: make this code smaller
     this.elements.dialog = document.createElement('div')
-    this.elements.dialog.style.display = 'none'
+    this.elements.dialog.className = 'dialogplus--dialog'
     document.body.appendChild(this.elements.dialog)
 
     this.elements.content = document.createElement('div')
-    this.elements.content.className = 'dialogplus--content' // TODO: is this BEM?
+    this.elements.content.className = 'dialogplus--content'
     this.elements.dialog.appendChild(this.elements.content)
   }
   _setOptions(isInitial, { content, ...rest }) {
@@ -58,11 +60,8 @@ class DialogplusCore {
       throw error('Unknown option(s): ' + Object.keys(rest).join(', '))
     }
   }
-  _show() {
-    this.elements.dialog.style.display = 'block' // TODO: use a classname and css to acheive this
-  }
   _hide() {
-    this.elements.dialog.style.display = 'none'
+    this.elements.dialog.style.display = 'none' // TODO: use a classname and css to acheive this
     // TODO: this.elements.dialog.addEventListener('animationend', () => this._destroy())
   }
   _destroy() {

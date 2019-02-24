@@ -1,3 +1,5 @@
+import './dialogplus-plugin-icons.css'
+
 function dialogplusPluginIcons(Super) {
   return class extends Super {}
 }

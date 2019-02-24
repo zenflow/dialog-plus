@@ -1,6 +1,5 @@
-- rollup.config.js, dev vs prod
-- .min versions of dist files
-- css with postcss & sass (use sweetalert2 styles for now)
+- separate "kernel" (base) and "shell" , and combination "core"
+- use parcel for ~/dev
 
 - rename package to "dialogplus"
 - .standalone.js (js *and *css*)

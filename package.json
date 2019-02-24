@@ -2,13 +2,10 @@
   "name": "dialog-plus",
   "version": "0.1.0",
   "main": "dist/dialogplus.cjs.js",
-  "module": "dist/dialogplus.es.js",
-  "browser": "dist/dialogplus.umd.js",
+  "files": [
+    "dist"
+  ],
   "license": "MIT",
-  "author": {
-    "name": "Matthew Francis Brunetti",
-    "email": "zenflow87@gmail.com"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/zenflow/dialog-plus"
@@ -17,29 +14,33 @@
     "url": "https://github.com/zenflow/dialog-plus/issues"
   },
   "homepage": "https://github.com/zenflow/dialog-plus#readme",
+  "author": {
+    "name": "Matthew Francis Brunetti",
+    "email": "zenflow87@gmail.com"
+  },
+  "dependencies": {},
   "devDependencies": {
-    "@babel/core": "^7.2.2",
-    "@babel/plugin-proposal-class-properties": "^7.3.3",
-    "@babel/preset-env": "^7.3.1",
+    "@babel/core": "^7.0.0",
+    "@babel/plugin-proposal-class-properties": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "autoprefixer": "^9.0.0",
     "babel-core": "7.0.0-bridge.0",
     "babel-jest": "^24.0.0",
     "jest": "^24.0.0",
-    "rollup": "^1.1.2",
-    "rollup-plugin-babel": "^4.3.2",
-    "rollup-plugin-commonjs": "^9.2.0",
+    "rollup": "^1.0.0",
+    "rollup-plugin-babel": "^4.0.0",
+    "rollup-plugin-commonjs": "^9.0.0",
     "rollup-plugin-node-resolve": "^4.0.0",
-    "rollup-plugin-terser": "^4.0.4",
+    "rollup-plugin-postcss": "^2.0.0",
+    "rollup-plugin-terser": "^4.0.0",
     "zenflow-lint-js": "^2.0.0"
   },
   "scripts": {
     "lint-fix": "zenflow-lint-js --fix",
     "dev-test": "jest --watch --notify",
-    "dev-build": "rollup --config --watch --environment IS_DEVELOPMENT_BUILD",
+    "dev-build": "rollup --config --watch",
     "lint": "zenflow-lint-js",
     "test": "jest --ci",
-    "build": "rollup --config"
-  },
-  "files": [
-    "dist"
-  ]
+    "build": "rollup --config --environment NODE_ENV:production"
+  }
 }
