@@ -2,7 +2,7 @@
   "name": "dialog-plus",
   "version": "0.1.0",
   "main": "dist/dialogplus.cjs.js",
-  "module": "dist/dialogplus.esm.js",
+  "module": "dist/dialogplus.es.js",
   "browser": "dist/dialogplus.umd.js",
   "license": "MIT",
   "author": {
@@ -28,15 +28,16 @@
     "rollup-plugin-babel": "^4.3.2",
     "rollup-plugin-commonjs": "^9.2.0",
     "rollup-plugin-node-resolve": "^4.0.0",
+    "rollup-plugin-terser": "^4.0.4",
     "zenflow-lint-js": "^2.0.0"
   },
   "scripts": {
-    "lint": "zenflow-lint-js",
     "lint-fix": "zenflow-lint-js --fix",
+    "dev-test": "jest --watch --notify",
+    "dev-build": "rollup --config --watch --environment IS_DEVELOPMENT_BUILD",
+    "lint": "zenflow-lint-js",
     "test": "jest --ci",
-    "test-watch": "jest --watch --notify",
-    "build": "rollup --config",
-    "build-watch": "rollup --config --watch"
+    "build": "rollup --config"
   },
   "files": [
     "dist"
