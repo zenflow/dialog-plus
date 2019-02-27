@@ -5,6 +5,9 @@ function error(message) {
   return new Error(`dialogplus-core: ${message}`)
 }
 
+const createElement = document.createElement.bind(document)
+const documentBody = document.body
+
 class DialogplusCore {
   static defaultOptions = {
     content: '',
@@ -53,14 +56,15 @@ class DialogplusCore {
   }
 
   _create() {
-    // TODO: make this code smaller
-    this.elements.dialog = document.createElement('div')
-    this.elements.dialog.className = 'dialogplus--dialog'
-    document.body.appendChild(this.elements.dialog)
+    const dialog = createElement('div')
+    dialog.className = 'dialogplus--dialog'
+    documentBody.appendChild(dialog)
 
-    this.elements.content = document.createElement('div')
-    this.elements.content.className = 'dialogplus--content'
-    this.elements.dialog.appendChild(this.elements.content)
+    const content = createElement('div')
+    content.className = 'dialogplus--content'
+    dialog.appendChild(content)
+
+    Object.assign(this.elements, { dialog, content })
   }
   _render(isInitial, { content, ...rest }) {
     content = content || ''
@@ -80,7 +84,7 @@ class DialogplusCore {
     // TODO: fire onHide *after* this function is called
   }
   _destroy() {
-    document.body.removeChild(this.elements.dialog)
+    documentBody.removeChild(this.elements.dialog)
     // TODO: fire onDestroy *after* this function is called
   }
 }
