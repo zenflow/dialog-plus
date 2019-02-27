@@ -1,29 +1,22 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Dialogplus Dialogplus(string) 1`] = `
-_class {
-  "elements": Object {
-    "content": <div
+exports[`Dialogplus Dialogplus.fire({content}) 1`] = `
+<div
+  class="dialogplus--container"
+>
+  <div
+    class="dialogplus--backdrop"
+  />
+  <div
+    class="dialogplus--dialog"
+  >
+    <div
       class="dialogplus--content"
     >
       <p>
         test
       </p>
-    </div>,
-    "dialog": <div
-      class="dialogplus--dialog"
-    >
-      <div
-        class="dialogplus--content"
-      >
-        <p>
-          test
-        </p>
-      </div>
-    </div>,
-  },
-  "options": Object {
-    "content": "<p>test</p>",
-  },
-}
+    </div>
+  </div>
+</div>
 `;

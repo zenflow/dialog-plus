@@ -2,7 +2,6 @@ import css from './dialogplus-core.css'
 import { omitUndefined, ensureCss, assert } from './helpers'
 
 const errorMessage = message => `dialogplus-core: ${message}`
-
 const createElement = document.createElement.bind(document)
 const documentBody = document.body
 
@@ -56,15 +55,23 @@ class DialogplusCore {
   _create() {
     ensureCss(css)
 
+    const container = createElement('div')
+    container.className = 'dialogplus--container'
+    documentBody.appendChild(container)
+
+    const backdrop = createElement('div')
+    backdrop.className = 'dialogplus--backdrop'
+    container.appendChild(backdrop)
+
     const dialog = createElement('div')
     dialog.className = 'dialogplus--dialog'
-    documentBody.appendChild(dialog)
+    container.appendChild(dialog)
 
     const content = createElement('div')
     content.className = 'dialogplus--content'
     dialog.appendChild(content)
 
-    Object.assign(this.elements, { dialog, content })
+    Object.assign(this.elements, { container, dialog, content })
   }
   _render(isInitial, { content, ...rest }) {
     content = content || ''
@@ -81,12 +88,12 @@ class DialogplusCore {
     )
   }
   _hide() {
-    this.elements.dialog.style.display = 'none' // TODO: use a classname and css to acheive this
+    this.elements.container.style.display = 'none' // TODO: use a classname and css to acheive this
     // TODO: this.elements.dialog.addEventListener('animationend', () => this._destroy())
     // TODO: fire onHide *after* this function is called
   }
   _destroy() {
-    documentBody.removeChild(this.elements.dialog)
+    documentBody.removeChild(this.elements.container)
     // TODO: fire onDestroy *after* this function is called
   }
 }

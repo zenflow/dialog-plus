@@ -3,8 +3,8 @@
 import { Dialogplus } from './dialogplus.js'
 
 describe('Dialogplus', () => {
-  it('Dialogplus(string)', () => {
+  it('Dialogplus.fire({content})', () => {
     const dialog = Dialogplus.fire({ content: '<p>test</p>' })
-    expect(dialog).toMatchSnapshot()
+    expect(dialog.elements.container).toMatchSnapshot()
   })
 })
