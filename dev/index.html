@@ -1,6 +1,3 @@
-<!--
-TODO: multiple editable+executable samples in <textarea>s
--->
 <html>
 <body>
 <style type="text/css">
@@ -18,7 +15,7 @@ TODO: multiple editable+executable samples in <textarea>s
 
   let dialog
   document.getElementById('fire-with-default-content').addEventListener('click', () => {
-    dialog = MyDialog.fire()
+    dialog = MyDialog.fire({ cancelOnBackdropClick: true })
   })
   document.getElementById('fire-with-custom-content').addEventListener('click', () => {
     dialog = MyDialog.fireAlert('<p><strong>custom</strong> content</p>')

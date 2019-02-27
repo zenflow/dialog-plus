@@ -8,16 +8,17 @@ const documentBody = document.body
 class DialogplusCore {
   static defaultOptions = {
     content: '',
+    cancelOnBackdropClick: false,
   }
   static withPlugins(...plugins) {
     return plugins.reduce((Super, plugin) => plugin(Super), this)
   }
 
-  static customOptions = {}
+  static defaultOptions = {}
   static withOptions(options) {
     return (Super =>
       class extends Super {
-        static customOptions = { ...Super.customOptions, ...options }
+        static defaultOptions = { ...Super.defaultOptions, ...options }
       })(this)
   }
 
@@ -34,13 +35,13 @@ class DialogplusCore {
   static firePrompt() {} // TODO
 
   elements = {}
+  #cancelOnBackdropClick
 
   constructor(options) {
     // TODO: assert this constructor is not extended/overridden ?
     this._create()
-    // TODO: fire onCreate event
-    const { defaultOptions, customOptions } = this.constructor
-    this.options = { ...defaultOptions, ...customOptions, ...options }
+    // TODO: fire onCreate event=
+    this.options = { ...this.constructor.defaultOptions, ...options }
     this._render(true, this.options) // TODO: assert nothing accesses `this.options` during this call ?
   }
   setOptions(options = {}) {
@@ -50,6 +51,10 @@ class DialogplusCore {
   render() {
     this._render(false, this.options) // TODO: assert nothing accesses `this.options` during this call ?
     // TODO: fire onReRender event
+  }
+  cancel(reason) {
+    this.cancelReason = reason
+    this._hide()
   }
 
   _create() {
@@ -61,6 +66,11 @@ class DialogplusCore {
 
     const backdrop = createElement('div')
     backdrop.className = 'dialogplus--backdrop'
+    backdrop.addEventListener('click', () => {
+      if (this.#cancelOnBackdropClick) {
+        this.cancel('backdrop-click')
+      }
+    })
     container.appendChild(backdrop)
 
     const dialog = createElement('div')
@@ -73,13 +83,10 @@ class DialogplusCore {
 
     Object.assign(this.elements, { container, dialog, content })
   }
-  _render(isInitial, { content, ...rest }) {
-    content = content || ''
-    assert(
-      typeof content === 'string',
-      errorMessage('"content" option must be a string'),
-    )
-    this.elements.content.innerHTML = content
+  _render(isInitial, { content, cancelOnBackdropClick, ...rest }) {
+    this.elements.content.innerHTML = String(content)
+
+    this.#cancelOnBackdropClick = cancelOnBackdropClick
 
     // make sure no options were unused
     assert(
