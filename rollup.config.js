@@ -4,6 +4,7 @@ import commonjs from 'rollup-plugin-commonjs'
 import postcss from 'rollup-plugin-postcss'
 import autoprefixer from 'autoprefixer'
 import { terser } from 'rollup-plugin-terser'
+import filesize from 'rollup-plugin-filesize'
 import pkg from './package.json'
 
 const getConfig = ({ minimize, formats, sourcemap }) => {
@@ -45,6 +46,11 @@ const getConfig = ({ minimize, formats, sourcemap }) => {
             comments: (_, { value }) => /@preserve/.test(value),
           },
         }),
+      filesize({
+        showMinifiedSize: false,
+        showGzippedSize: false,
+        render: (_, { file }, { bundleSize }) => `${file}: ${bundleSize}`,
+      }),
     ].filter(Boolean),
   }
 }
