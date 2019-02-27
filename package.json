@@ -41,7 +41,7 @@
     "lint-fix": "zenflow-lint-js --fix",
     "dev-test": "jest --watch --notify",
     "dev-build": "rollup --config --watch",
-    "dev-examples": "parcel examples/index.html --out-dir examples-dist --open --no-hmr",
+    "dev-examples": "parcel examples/index.html --out-dir examples-dist --open --no-hmr --no-autoinstall",
     "lint": "zenflow-lint-js",
     "test": "jest --ci",
     "build": "rollup --config --environment NODE_ENV:production",

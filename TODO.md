@@ -1,10 +1,10 @@
 # TODO
 
 ## top
-- add thenable interface
 - add onComplete vs onCancel (and onCreate & onRender)
 - add back es modules
 - `styles` option
+- preloading state (in core-base)
 
 ## tricky questions
 
@@ -32,6 +32,7 @@
 - badge with https://badgen.net/
 - travis CI
 - semantic-release
+- github pages (or other host for examples-dist)
 - test on various browsers
 
 # future

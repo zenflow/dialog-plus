@@ -1,12 +1,17 @@
 import css from './core-base.css'
-import { ensureCss, assert, mergeOptions } from './helpers'
+import { ensureCss, assert, mergeOptions, createDeferred } from './helpers'
 
 const createElement = document.createElement.bind(document)
 const documentBody = document.body
 
 export class DialogplusCoreBase {
+  // TODO: attach this `meta` to instance prototype also?
+  static meta = {
+    plugins: [], // TODO: populate this ?
+  }
   static defaultOptions = {
     content: '',
+    getResolvedValue: ({ cancelReason }) => ({ cancelReason }),
   }
   static withPlugins(...plugins) {
     return plugins.reduce((Super, plugin) => plugin(Super), this)
@@ -17,30 +22,40 @@ export class DialogplusCoreBase {
         static defaultOptions = mergeOptions(Super.defaultOptions, options)
       })(this)
   }
-  static fire(options = {}) {
-    return new this(options)
-  }
 
-  elements = {}
-
+  // "final" (sealed) methods
+  // TODO: assert "final" prototype methods (and constructor) are not extended/overridden?
+  //    decorator for "sealed" constructor & methods?
   constructor(options) {
-    // TODO: assert this constructor is not extended/overridden ?
+    this.____deferred = createDeferred()
     this._create()
-    // TODO: fire onCreate event=
+    // TODO: fire onCreate event
     this.options = mergeOptions(this.constructor.defaultOptions, options)
-    this._render(true, this.options) // TODO: assert nothing accesses `this.options` during this call ?
+    this.render()
   }
   setOptions(options = {}) {
     this.options = mergeOptions(this.options, options)
     this.render()
   }
   render() {
-    this._render(false, this.options) // TODO: assert nothing accesses `this.options` during this call ?
+    this._render(this.options) // TODO: assert nothing accesses `this.options` during this call ?
     // TODO: fire onReRender event
+    this.hadFirstRender = true
   }
   cancel(reason) {
+    // TODO: assert valid state for cancellation
     this.cancelReason = reason
-    this._hide()
+    this._hide(this)
+    resolveDeferred(this)
+  }
+  then(onFulfilled, onRejected) {
+    return this.____deferred.promise.then(onFulfilled, onRejected)
+  }
+  catch(onRejected) {
+    return this.____deferred.promise.catch(onRejected)
+  }
+  finally(onFinally) {
+    return this.____deferred.promise.finally(onFinally)
   }
 
   _create() {
@@ -63,10 +78,11 @@ export class DialogplusCoreBase {
     content.className = 'dialogplus--content'
     dialog.appendChild(content)
 
-    Object.assign(this.elements, { container, backdrop, dialog, content })
+    this.elements = { container, backdrop, dialog, content }
   }
-  _render(isInitial, { content, ...rest }) {
+  _render({ content, getResolvedValue, ...rest }) {
     this.elements.content.innerHTML = String(content)
+    this.____optionGetResolvedValue = getResolvedValue
 
     // make sure no options were unused
     assert(
@@ -83,4 +99,10 @@ export class DialogplusCoreBase {
     documentBody.removeChild(this.elements.container)
     // TODO: fire onDestroy *after* this function is called
   }
+}
+
+// private methods
+function resolveDeferred(self) {
+  self.resolvedValue = self.____optionGetResolvedValue(self)
+  self.____deferred.resolve(self.resolvedValue)
 }

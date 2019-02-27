@@ -1,4 +1,6 @@
-.dialogplus--container {}
+.dialogplus--container {
+  z-index: 1023;
+}
 
 .dialogplus--backdrop {
   position: fixed;

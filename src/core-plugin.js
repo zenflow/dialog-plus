@@ -11,25 +11,26 @@ export function dialogplusCorePlugin(Super) {
       super._create()
       ensureCss(css)
       this.elements.backdrop.addEventListener('click', () => {
-        if (this.__cancelOnBackdropClick) {
+        if (this.____optionCancelOnBackdropClick) {
           this.cancel('backdrop-click')
         }
       })
     }
 
+    static fire(options = {}) {
+      return new this(options)
+    }
     static fireSwal(icon, title, content) {
       return new this({ icon, title, content })
     }
     static fireAlert(content) {
       return new this({ content })
     }
-    static fireConfirm() {} // TODO
-    static firePrompt() {} // TODO
+    // TODO: fireConfirm, firePrompt, etc
 
-    // TODO: replace `isInitial` argument with `this.wasRendered` property
-    _render(isInitial, { cancelOnBackdropClick, ...rest }) {
-      this.__cancelOnBackdropClick = Boolean(cancelOnBackdropClick)
-      super._render(isInitial, rest)
+    _render({ cancelOnBackdropClick, ...rest }) {
+      this.____optionCancelOnBackdropClick = Boolean(cancelOnBackdropClick)
+      super._render(rest)
     }
   }
 }

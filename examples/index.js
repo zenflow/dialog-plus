@@ -1,26 +1,4 @@
-import { Dialogplus } from '../.'
-
-const MyDialog = Dialogplus.withOptions({
-  content: 'default content',
-  cancelOnBackdropClick: true,
-})
-
-const examples = [
-  {
-    id: 'fireAlert',
-    // desc: 'some description',
-    fn() {
-      return Promise.resolve(MyDialog.fireAlert('custom content'))
-    },
-  },
-  {
-    id: 'cancelOnBackdropClick',
-    fn() {
-      // TODO: first use true, then use false, and a setTimeout to call `cancel`
-      return Promise.resolve(MyDialog.fire({ cancelOnBackdropClick: false }))
-    },
-  },
-]
+import { examples } from './examples'
 
 const mainEl = document.getElementById('main')
 
@@ -46,16 +24,12 @@ for (const { id, desc, fn } of examples) {
   const preEl = document.createElement('pre')
   preEl.innerText = fn.toString()
   preEl.addEventListener('click', () => {
-    console.log(`started example "${id}"`)
+    console.log(`"${id}": started`)
     fn()
       .catch(console.error)
       .then(() => {
-        console.log(`finished example "${id}"`)
+        console.log(`"${id}": finished`)
       })
   })
   liEl.appendChild(preEl)
 }
-
-Object.assign(window, {
-  MyDialog,
-})
