@@ -1,9 +1,7 @@
 import './dialogplus-core.css'
-import { omitUndefined } from './helpers/helpers'
+import { assert, omitUndefined } from './helpers/helpers'
 
-function error(message) {
-  return new Error(`dialogplus-core: ${message}`)
-}
+const errorMessage = message => `dialogplus-core: ${message}`
 
 const createElement = document.createElement.bind(document)
 const documentBody = document.body
@@ -68,15 +66,17 @@ class DialogplusCore {
   }
   _render(isInitial, { content, ...rest }) {
     content = content || ''
-    if (typeof content !== 'string') {
-      throw error('"content" option must be a string')
-    }
+    assert(
+      typeof content === 'string',
+      errorMessage('"content" option must be a string'),
+    )
     this.elements.content.innerHTML = content
 
     // make sure no options were unused
-    if (Object.keys(rest).length) {
-      throw error('Unknown option(s): ' + Object.keys(rest).join(', '))
-    }
+    assert(
+      !Object.keys(rest).length,
+      errorMessage('Unknown option(s): ' + Object.keys(rest).join(', ')),
+    )
   }
   _hide() {
     this.elements.dialog.style.display = 'none' // TODO: use a classname and css to acheive this

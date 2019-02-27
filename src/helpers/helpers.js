@@ -7,3 +7,9 @@ export function omitUndefined(object) {
   }
   return result
 }
+
+export function assert(condition, message) {
+  if (!condition) {
+    throw new Error(message)
+  }
+}
