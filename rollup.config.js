@@ -36,6 +36,7 @@ const getConfig = ({ minimize, formats, sourcemap }) => {
       }),
       commonjs(),
       postcss({
+        inject: false,
         plugins: [autoprefixer()],
         minimize: minimize,
         sourceMap: sourcemap ? 'inline' : false,

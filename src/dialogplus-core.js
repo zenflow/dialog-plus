@@ -1,5 +1,5 @@
-import './dialogplus-core.css'
-import { assert, omitUndefined } from './helpers/helpers'
+import css from './dialogplus-core.css'
+import { omitUndefined, ensureCss, assert } from './helpers'
 
 const errorMessage = message => `dialogplus-core: ${message}`
 
@@ -54,6 +54,8 @@ class DialogplusCore {
   }
 
   _create() {
+    ensureCss(css)
+
     const dialog = createElement('div')
     dialog.className = 'dialogplus--dialog'
     documentBody.appendChild(dialog)
