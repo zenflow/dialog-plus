@@ -1,41 +1,55 @@
 import './dialogplus-core.css'
+import { omitUndefined } from './helpers/helpers'
 
 function error(message) {
   return new Error(`dialogplus-core: ${message}`)
 }
 
 class DialogplusCore {
-  static withPlugins(...plugins) {
-    return plugins.reduce((Super, plugin) => plugin(Super), this)
-  }
   static defaultOptions = {
     content: '',
   }
+  static withPlugins(...plugins) {
+    return plugins.reduce((Super, plugin) => plugin(Super), this)
+  }
+
+  static customOptions = {}
   static withOptions(options) {
     return (Super =>
       class extends Super {
-        static defaultOptions = { ...Super.defaultOptions, ...options }
+        static customOptions = { ...Super.customOptions, ...options }
       })(this)
   }
-  static _argsToOptions(args) {
-    // TODO: eliminate this & add *different* methods for shorthand form
-    const [options = {}] = args
-    return options
-  }
-  static fire(...args) {
-    const options = this._argsToOptions(args)
+
+  static fire(options = {}) {
     return new this(options)
   }
+  static fireSweet(icon, title, content) {
+    return new this(omitUndefined({ icon, title, content }))
+  }
+  static fireAlert(content) {
+    return new this(omitUndefined({ content }))
+  }
+  static fireConfirm() {} // TODO
+  static firePrompt() {} // TODO
 
   elements = {}
+
   constructor(options) {
+    // TODO: assert this constructor is not extended/overridden ?
     this._create()
-    this.options = { ...this.constructor.defaultOptions, ...options }
-    this._setOptions(true, this.options)
+    // TODO: fire onCreate event
+    const { defaultOptions, customOptions } = this.constructor
+    this.options = { ...defaultOptions, ...customOptions, ...options }
+    this._render(true, this.options) // TODO: assert nothing accesses `this.options` during this call ?
   }
-  setOptions(options) {
+  setOptions(options = {}) {
     this.options = { ...this.options, ...options }
-    this._setOptions(false, this.options)
+    this.render()
+  }
+  render() {
+    this._render(false, this.options) // TODO: assert nothing accesses `this.options` during this call ?
+    // TODO: fire onReRender event
   }
 
   _create() {
@@ -48,7 +62,7 @@ class DialogplusCore {
     this.elements.content.className = 'dialogplus--content'
     this.elements.dialog.appendChild(this.elements.content)
   }
-  _setOptions(isInitial, { content, ...rest }) {
+  _render(isInitial, { content, ...rest }) {
     content = content || ''
     if (typeof content !== 'string') {
       throw error('"content" option must be a string')
@@ -63,9 +77,11 @@ class DialogplusCore {
   _hide() {
     this.elements.dialog.style.display = 'none' // TODO: use a classname and css to acheive this
     // TODO: this.elements.dialog.addEventListener('animationend', () => this._destroy())
+    // TODO: fire onHide *after* this function is called
   }
   _destroy() {
     document.body.removeChild(this.elements.dialog)
+    // TODO: fire onDestroy *after* this function is called
   }
 }
 

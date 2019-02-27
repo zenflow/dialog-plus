@@ -1,6 +1,8 @@
 - separate "kernel" (base) and "shell" , and combination "core"
 - use parcel for ~/dev
 
+- include helpers on class constructor?
+
 - rename package to "dialogplus"
 - .standalone.js (js *and *css*)
 - take all relevant functionality from https://github.com/GoogleChrome/dialog-polyfill
