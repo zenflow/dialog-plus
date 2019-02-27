@@ -1,17 +1,22 @@
 import css from './core-base.css'
-import { ensureCss, assert, mergeOptions, createDeferred } from './helpers'
+import { ensureCss } from './helpers/ensure-css'
+import { assert } from './helpers/assert'
+import { mergeOptions } from './helpers/merge-options'
+import { createDeferred } from './helpers/create-deferred'
+
 
 const createElement = document.createElement.bind(document)
 const documentBody = document.body
 
 export class DialogplusCoreBase {
-  // TODO: attach this `meta` to instance prototype also?
-  static meta = {
-    plugins: [], // TODO: populate this ?
-  }
+  // static properties & methods
   static defaultOptions = {
     content: '',
     getResolvedValue: ({ cancelReason }) => ({ cancelReason }),
+  }
+  // TODO: attach this `meta` to instance prototype also?
+  static meta = {
+    plugins: [], // TODO: populate this ?
   }
   static withPlugins(...plugins) {
     return plugins.reduce((Super, plugin) => plugin(Super), this)
@@ -29,7 +34,6 @@ export class DialogplusCoreBase {
   constructor(options) {
     this.____deferred = createDeferred()
     this._create()
-    // TODO: fire onCreate event
     this.options = mergeOptions(this.constructor.defaultOptions, options)
     this.render()
   }
@@ -39,7 +43,6 @@ export class DialogplusCoreBase {
   }
   render() {
     this._render(this.options) // TODO: assert nothing accesses `this.options` during this call ?
-    // TODO: fire onReRender event
     this.hadFirstRender = true
   }
   cancel(reason) {
@@ -58,6 +61,7 @@ export class DialogplusCoreBase {
     return this.____deferred.promise.finally(onFinally)
   }
 
+  // "protected" methods
   _create() {
     ensureCss(css)
 
@@ -101,7 +105,7 @@ export class DialogplusCoreBase {
   }
 }
 
-// private methods
+// "private" methods
 function resolveDeferred(self) {
   self.resolvedValue = self.____optionGetResolvedValue(self)
   self.____deferred.resolve(self.resolvedValue)

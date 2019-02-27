@@ -14,8 +14,9 @@ jobs:
   - stage: test
   - script: yarn lint
   - script: yarn test
+  - script: yarn build && yarn build-examples
   - stage: release
-  - script: yarn build
+  - script: echo "TODO: implement release"
 notifications:
   email:
     on_success: never

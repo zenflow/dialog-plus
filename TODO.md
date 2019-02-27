@@ -1,10 +1,13 @@
 # TODO
 
 ## top
-- add onComplete vs onCancel (and onCreate & onRender)
+- add onComplete vs onCancel (and onCreate, onRender, onHide, onDestroy)
 - add back es modules
-- `styles` option
-- preloading state (in core-base)
+- some tests!
+- `styles` option (in core-base)
+- preloading & postloading states (in core-base)
+- take all relevant functionality from `dialog-polyfill` & sweetalerts
+  - tab-key trap
 
 ## tricky questions
 
@@ -25,9 +28,9 @@
 
 # so much to do!
 
+- jest power-assert?
 - add stylelinting
 - rename package to "dialogplus"
-- take all relevant functionality from https://github.com/GoogleChrome/dialog-polyfill
 - test coverage
 - badge with https://badgen.net/
 - travis CI
@@ -43,5 +46,6 @@
   - dialogplus-plugin-icons
   - dialogplus-plugin-buttons
   - dialogplus-plugin-inputs
+  - dialogplus-plugin-animation ?
   - dialogplus-plugin-timer
   - dialogplus-plugin-queue
