@@ -4,6 +4,7 @@ import { assert } from './helpers/assert'
 import { mergeOptions } from './helpers/merge-options'
 import { createDeferred } from './helpers/create-deferred'
 
+let isCssEnsured = false
 
 const createElement = document.createElement.bind(document)
 const documentBody = document.body
@@ -19,6 +20,10 @@ export class DialogplusCoreBase {
     plugins: [], // TODO: populate this ?
   }
   static withPlugins(...plugins) {
+    if (!isCssEnsured) {
+      ensureCss(css)
+      isCssEnsured = true
+    }
     return plugins.reduce((Super, plugin) => plugin(Super), this)
   }
   static withOptions(options) {
@@ -63,8 +68,6 @@ export class DialogplusCoreBase {
 
   // "protected" methods
   _create() {
-    ensureCss(css)
-
     // TODO: dry
     const container = createElement('div')
     container.className = 'dialogplus--container'

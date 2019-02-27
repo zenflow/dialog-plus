@@ -13,11 +13,6 @@
 
 - examples: show original source code, but execute compiled code
   - https://github.com/babel/babel/issues/5085#issuecomment-374903233 (separate babel configs (build vs build-examples) if necessary)
-- solve css injection order uncertainty
-  - create high-level API for plugins to provide css text
-  - uncertainty = order by import order? or by plugin install order? or by plugin install order of *first firing* (current)?
-  - somehow give each instance an isolated css-selector scope and apply plugin styles inside it???
-  - ... manage mounted <style> elements???
 - include helpers on class constructor?
 
 ## community maintenance

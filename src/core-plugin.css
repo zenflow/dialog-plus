@@ -16,4 +16,9 @@
   justify-content: center;
 }
 
-.dialogplus--content {}
+.dialogplus--content {
+  /* this should be overridden by dialogplus-plugin-icons.css; if text is bold & red, something is wrong */
+  font-weight: bold;
+  color: red;
+}
+
