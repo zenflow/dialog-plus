@@ -3,7 +3,7 @@
 > The ultimate browser dialog library
 
 ## Design goals
-- Match all use-cases and major features of both SweetAlert and SweetAlert2
+- Suit all use-cases of SweetAlert, SweetAlert2, and more
 - Extensible
 - Modular
 - Stable

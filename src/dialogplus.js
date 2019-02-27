@@ -1,6 +1,16 @@
-import { DialogplusCore } from './dialogplus-core'
+import {
+  DialogplusCoreBase,
+  dialogplusCorePlugin,
+  DialogplusCore,
+} from './dialogplus-core'
 import { dialogplusPluginIcons } from './dialogplus-plugin-icons'
 
 const Dialogplus = DialogplusCore.withPlugins(dialogplusPluginIcons)
 
-export { DialogplusCore, dialogplusPluginIcons, Dialogplus }
+export {
+  DialogplusCoreBase,
+  dialogplusCorePlugin,
+  DialogplusCore,
+  dialogplusPluginIcons,
+  Dialogplus,
+}

@@ -1,0 +1,19 @@
+.dialogplus--container {}
+
+.dialogplus--backdrop {
+  background: rgba(0,0,0,0.2);
+}
+
+.dialogplus--dialog {
+  border-radius: .4em;
+  padding: 1em;
+  background: white;
+  color: black;
+  font-size: 1rem;
+  font-family: sans-serif;
+  line-height: normal;
+  text-align: center;
+  justify-content: center;
+}
+
+.dialogplus--content {}

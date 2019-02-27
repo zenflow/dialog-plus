@@ -1,4 +1,6 @@
-export function omitUndefined(object) {
+// TODO: split this file into multiple modules
+
+function omitUndefined(object) {
   const result = []
   for (const [key, value] of Object.entries(object)) {
     if (value !== undefined) {
@@ -6,6 +8,10 @@ export function omitUndefined(object) {
     }
   }
   return result
+}
+
+export function mergeOptions(baseOptions, updatedOptions) {
+  return { ...baseOptions, ...omitUndefined(updatedOptions) }
 }
 
 export function assert(condition, message) {

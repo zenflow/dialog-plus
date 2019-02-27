@@ -1,5 +1,13 @@
 .dialogplus--container {}
 
+.dialogplus--backdrop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
 .dialogplus--dialog {
   position: fixed;
   left: 0;
@@ -9,19 +17,6 @@
   width: fit-content;
   height: fit-content;
   margin: auto;
-  border: solid;
-  padding: 1em;
-  background: white;
-  color: black;
-}
-
-.dialogplus--backdrop {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background: rgba(0,0,0,0.1);
 }
 
 .dialogplus--content {}

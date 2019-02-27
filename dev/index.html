@@ -6,19 +6,23 @@
   }
 </style>
 <main>
-  <button id="fire-with-default-content">Fire with default content</button>
-  <button id="fire-with-custom-content">Fire with custom content</button>
+  <button id="fire-with-cancelOnBackdropClick">fire-with-cancelOnBackdropClick</button>
+  <button id="fire-with-fireAlert">fire-with-fireAlert</button>
+  <button id="fire-with-empty-fireAlert">fire-with-empty-fireAlert</button>
 </main>
 <script src="../dist/dialogplus.umd.js"></script>
 <script>
   let MyDialog = dialogplus.Dialogplus.withOptions({ content: '<p>default content</p>' })
 
   let dialog
-  document.getElementById('fire-with-default-content').addEventListener('click', () => {
+  document.getElementById('fire-with-cancelOnBackdropClick').addEventListener('click', () => {
     dialog = MyDialog.fire({ cancelOnBackdropClick: true })
   })
-  document.getElementById('fire-with-custom-content').addEventListener('click', () => {
+  document.getElementById('fire-with-fireAlert').addEventListener('click', () => {
     dialog = MyDialog.fireAlert('<p><strong>custom</strong> content</p>')
+  })
+  document.getElementById('fire-with-empty-fireAlert').addEventListener('click', () => {
+    dialog = MyDialog.fireAlert()
   })
 </script>
 </body>
