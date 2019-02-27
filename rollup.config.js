@@ -1,10 +1,10 @@
-import resolve from 'rollup-plugin-node-resolve'
-import babel from 'rollup-plugin-babel'
-import commonjs from 'rollup-plugin-commonjs'
-import postcss from 'rollup-plugin-postcss'
+import rollupPluginNodeResolve from 'rollup-plugin-node-resolve'
+import rollupPluginCommonjs from 'rollup-plugin-commonjs'
+import rollupPluginBabel from 'rollup-plugin-babel'
+import rollupPluginPostcss from 'rollup-plugin-postcss'
 import autoprefixer from 'autoprefixer'
-import { terser } from 'rollup-plugin-terser'
-import filesize from 'rollup-plugin-filesize'
+import { terser as rollupPluginTerser } from 'rollup-plugin-terser'
+import rollupPluginFilesize from 'rollup-plugin-filesize'
 import pkg from './package.json'
 
 const getConfig = ({ minimize, formats, sourcemap }) => {
@@ -30,24 +30,24 @@ const getConfig = ({ minimize, formats, sourcemap }) => {
       }
     }),
     plugins: [
-      resolve(),
-      babel({
+      rollupPluginNodeResolve(),
+      rollupPluginBabel({
         exclude: 'node_modules/**',
       }),
-      commonjs(),
-      postcss({
+      rollupPluginCommonjs(),
+      rollupPluginPostcss({
         inject: false,
         plugins: [autoprefixer()],
         minimize: minimize,
         sourceMap: sourcemap ? 'inline' : false,
       }),
       minimize &&
-        terser({
+        rollupPluginTerser({
           output: {
             comments: (_, { value }) => /@preserve/.test(value),
           },
         }),
-      filesize({
+      rollupPluginFilesize({
         showMinifiedSize: false,
         showGzippedSize: false,
         render: (_, { file }, { bundleSize }) => `${file}: ${bundleSize}`,
@@ -61,4 +61,4 @@ export default (process.env.NODE_ENV === 'production'
       getConfig({ minimize: false, formats: ['umd', 'cjs'], sourcemap: false }),
       getConfig({ minimize: true, formats: ['umd'], sourcemap: false }),
     ]
-  : getConfig({ minimize: false, formats: ['umd'], sourcemap: true }))
+  : getConfig({ minimize: false, formats: ['cjs'], sourcemap: true }))

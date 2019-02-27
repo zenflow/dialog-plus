@@ -11,15 +11,12 @@ export class DialogplusCoreBase {
   static withPlugins(...plugins) {
     return plugins.reduce((Super, plugin) => plugin(Super), this)
   }
-
-  static defaultOptions = {}
   static withOptions(options) {
     return (Super =>
       class extends Super {
         static defaultOptions = mergeOptions(Super.defaultOptions, options)
       })(this)
   }
-
   static fire(options = {}) {
     return new this(options)
   }

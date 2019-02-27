@@ -1,6 +1,6 @@
 module.exports = {
   verbose: true,
   moduleNameMapper: {
-    '\\.css$': '<rootDir>/dev/empty-module.js',
+    '\\.css$': '<rootDir>/empty-module.js',
   },
 }
