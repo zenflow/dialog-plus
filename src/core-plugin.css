@@ -17,7 +17,11 @@
 }
 
 .dialogplus--content {
-  /* this should be overridden by dialogplus-plugin-icons.css; if text is bold & red, something is wrong */
+  /*
+  this should be overridden by dialogplus-plugin-icons.css
+  if text is red & bold, something is wrong
+  if text is green & normal weight, it's working correctly
+  */
   font-weight: bold;
   color: red;
 }

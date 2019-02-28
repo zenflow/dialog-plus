@@ -16,9 +16,15 @@
   right: 0;
   top: 50%;
   transform: translate(0, -50%);
+  margin: auto;
   width: fit-content;
   height: fit-content;
-  margin: auto;
 }
 
-.dialogplus--content {}
+.dialogplus--content {
+  /* TODO: something like the following `max-width` & `max-height`, but no arbitrary numbers */
+  /* TODO: move effective "margin" (i.e. `5rem`) to core-plugin */
+  max-width: calc(100vw - 5rem);
+  max-height: calc(100vh - 5rem);
+  overflow: auto;
+}

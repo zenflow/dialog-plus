@@ -9,6 +9,19 @@ export const examples = [
     },
   },
   {
+    id: 'wide and tall content',
+    fn() {
+      const content = Array.from({ length: 200 })
+        .map((_, y) =>
+          Array.from({ length: 20 })
+            .map((_, x) => x * y)
+            .join(' ... '),
+        )
+        .join('<br/>')
+      return MyDialog.fire({ content })
+    },
+  },
+  {
     id: 'cancelling',
     fn() {
       const dialog = MyDialog.fire({
@@ -19,7 +32,9 @@ export const examples = [
       return dialog
         .then(result =>
           MyDialog.fireAlert(
-            'result: ' + JSON.stringify(result) + '<hr/>now click the backdrop...',
+            'result: ' +
+              JSON.stringify(result) +
+              '<hr/>now click the backdrop...',
           ),
         )
         .then(result => MyDialog.fireAlert('result: ' + JSON.stringify(result)))

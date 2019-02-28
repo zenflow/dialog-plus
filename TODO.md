@@ -1,6 +1,7 @@
 # TODO
 
 ## top
+- update yarn version in .travis.yml
 - add onComplete vs onCancel (and onCreate, onRender, onHide, onDestroy)
 - add back es modules
 - some tests!
@@ -26,6 +27,7 @@
 - jest power-assert?
 - add stylelinting
 - rename package to "dialogplus"
+- [travis-ci.com](https://travis-ci.com/dashboard)
 - test coverage & coveralls
 - semantic-release
 - github pages (or other host for examples-dist)
