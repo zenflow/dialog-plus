@@ -26,9 +26,7 @@
 - jest power-assert?
 - add stylelinting
 - rename package to "dialogplus"
-- test coverage
-- badge with https://badgen.net/
-- travis CI
+- test coverage & coveralls
 - semantic-release
 - github pages (or other host for examples-dist)
 - test on various browsers
