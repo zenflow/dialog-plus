@@ -27,7 +27,7 @@
 - jest power-assert?
 - add stylelinting
 - rename package to "dialogplus"
-- [travis-ci.com](https://travis-ci.com/dashboard)
+- [travis-ci.com](https://travis-ci.com/dashboard) (make sure badge goes to that domain/version)
 - test coverage & coveralls
 - semantic-release
 - github pages (or other host for examples-dist)

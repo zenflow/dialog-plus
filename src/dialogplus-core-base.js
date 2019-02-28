@@ -1,36 +1,29 @@
-import css from './core-base.css'
+import css from './dialogplus-core-base.css'
 import { ensureCss } from './helpers/ensure-css'
 import { assert } from './helpers/assert'
 import { mergeOptions } from './helpers/merge-options'
 import { createDeferred } from './helpers/create-deferred'
-
-let isCssEnsured = false
 
 const createElement = document.createElement.bind(document)
 const documentBody = document.body
 
 export class DialogplusCoreBase {
   // static properties & methods
-  static defaultOptions = {
+  static optionDefaults = {
     content: '',
     getResolvedValue: ({ cancelReason }) => ({ cancelReason }),
   }
+  // TODO: static plugins = [] ? when firing Dialog.withPlugins(), assert correct dependencies installed first?
   // TODO: attach this `meta` to instance prototype also?
-  static meta = {
-    plugins: [], // TODO: populate this ?
-  }
   static withPlugins(...plugins) {
-    if (!isCssEnsured) {
-      ensureCss(css)
-      isCssEnsured = true
-    }
     return plugins.reduce((Super, plugin) => plugin(Super), this)
   }
   static withOptions(options) {
     return (Super =>
       class extends Super {
-        static defaultOptions = mergeOptions(Super.defaultOptions, options)
+        static optionDefaults = mergeOptions(Super.optionDefaults, options)
       })(this)
+    // is this technique gonna work? find that sweetalert2 issue i had
   }
 
   // "final" (sealed) methods
@@ -39,7 +32,7 @@ export class DialogplusCoreBase {
   constructor(options) {
     this.____deferred = createDeferred()
     this._create()
-    this.options = mergeOptions(this.constructor.defaultOptions, options)
+    this.options = mergeOptions(this.constructor.optionDefaults, options)
     this.render()
   }
   setOptions(options = {}) {
@@ -67,7 +60,9 @@ export class DialogplusCoreBase {
   }
 
   // "protected" methods
+
   _create() {
+    ensureCss(css)
     // TODO: dry
     const container = createElement('div')
     container.className = 'dialogplus--container'

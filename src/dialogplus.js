@@ -1,6 +1,7 @@
 import {
   DialogplusCoreBase,
-  dialogplusCorePlugin,
+  dialogplusCorePluginCancellers,
+  dialogplusCorePluginInvokers,
   DialogplusCore,
 } from './dialogplus-core'
 import { dialogplusPluginIcons } from './dialogplus-plugin-icons'
@@ -9,7 +10,8 @@ const Dialogplus = DialogplusCore.withPlugins(dialogplusPluginIcons)
 
 export {
   DialogplusCoreBase,
-  dialogplusCorePlugin,
+  dialogplusCorePluginCancellers,
+  dialogplusCorePluginInvokers,
   DialogplusCore,
   dialogplusPluginIcons,
   Dialogplus,
