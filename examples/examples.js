@@ -1,3 +1,21 @@
+import { dialogplusCore } from '../dist/dialogplus.cjs'
+export const examples = [
+  {
+    id: 'afsaf',
+    fn: () => {
+      const dialog = dialogplusCore({
+        content: `<p>(will be reset soon)</p><input type="text" value="foo"/>`,
+      })
+      setTimeout(() => {
+        dialog.setOptions({
+          content: `<p>(done)</p><input type="text"/>`,
+        })
+      }, 2000)
+    },
+  },
+]
+
+/*
 import { MyDialog } from './my-dialog'
 
 export const examples = [
@@ -41,5 +59,4 @@ export const examples = [
     },
   },
 ]
-
-// note: desc property is also supported
+*/

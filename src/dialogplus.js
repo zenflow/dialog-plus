@@ -1,18 +1,6 @@
-import {
-  DialogplusCoreBase,
-  dialogplusCorePluginCancellers,
-  dialogplusCorePluginInvokers,
-  DialogplusCore,
-} from './dialogplus-core'
-import { dialogplusPluginIcons } from './dialogplus-plugin-icons'
+import { dialogplusCoreBase } from './dialogplus-core'
+import { dialogplusCorePluginLayout } from './dialogplus-core-plugin-layout'
 
-const Dialogplus = DialogplusCore.withPlugins(dialogplusPluginIcons)
+const dialogplusCore = dialogplusCorePluginLayout(dialogplusCoreBase)
 
-export {
-  DialogplusCoreBase,
-  dialogplusCorePluginCancellers,
-  dialogplusCorePluginInvokers,
-  DialogplusCore,
-  dialogplusPluginIcons,
-  Dialogplus,
-}
+export { dialogplusCoreBase, dialogplusCorePluginLayout, dialogplusCore }
