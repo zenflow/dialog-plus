@@ -26,22 +26,24 @@ export class DialogplusCoreBase {
     // is this technique gonna work? find that sweetalert2 issue i had
   }
 
-  // "final" (sealed) methods
+  constructor(options) {
+    ensureCss(css)
+    this.____deferred = createDeferred()
+    this.elements = getElements()
+    this.options = mergeOptions(this.constructor.optionDefaults, options)
+    Promise.resolve().then(() => this.render()) // TODO: fix hack for problem of rendering before child class initiation
+  }
+
+  // "final" and public methods
   // TODO: assert "final" prototype methods (and constructor) are not extended/overridden?
   //    decorator for "sealed" constructor & methods?
-  constructor(options) {
-    this.____deferred = createDeferred()
-    this._create()
-    this.options = mergeOptions(this.constructor.optionDefaults, options)
-    this.render()
-  }
   setOptions(options = {}) {
     this.options = mergeOptions(this.options, options)
     this.render()
   }
   render() {
     this._render(this.options) // TODO: assert nothing accesses `this.options` during this call ?
-    this.hadFirstRender = true
+    this.hasRendered = true
   }
   complete(result) {
     // TODO: assert valid state for completion
@@ -66,28 +68,6 @@ export class DialogplusCoreBase {
   }
 
   // "protected" methods
-
-  _create() {
-    ensureCss(css)
-    // TODO: dry
-    const container = createElement('div')
-    container.className = 'dialogplus--root'
-    documentBody.appendChild(container)
-
-    const backdrop = createElement('div')
-    backdrop.className = 'dialogplus--backdrop'
-    container.appendChild(backdrop)
-
-    const dialog = createElement('div')
-    dialog.className = 'dialogplus--dialog'
-    container.appendChild(dialog)
-
-    const content = createElement('div')
-    content.className = 'dialogplus--content'
-    dialog.appendChild(content)
-
-    this.elements = { container, backdrop, dialog, content }
-  }
   _render({ content, getResolvedValue, ...rest }) {
     this.elements.content.innerHTML = String(content)
     this.____optionGetResolvedValue = getResolvedValue
@@ -99,11 +79,13 @@ export class DialogplusCoreBase {
     )
   }
   _hide() {
+    // TODO: this.isHiding = true ... this.isHiding = false; this.isHidden = true
     this.elements.container.style.display = 'none' // TODO: use a classname and css to acheive this
     // TODO: this.elements.dialog.addEventListener('animationend', () => this._destroy())
     // TODO: fire onHide *after* this function is called
   }
   _destroy() {
+    this.isDestroyed = true
     documentBody.removeChild(this.elements.container)
     // TODO: fire onDestroy *after* this function is called
   }
@@ -113,4 +95,24 @@ export class DialogplusCoreBase {
 function resolveDeferred(self) {
   self.resolvedValue = self.____optionGetResolvedValue(self)
   self.____deferred.resolve(self.resolvedValue)
+}
+function getElements() {
+  // TODO: dry
+  const container = createElement('div')
+  container.className = 'dialogplus--root'
+  documentBody.appendChild(container)
+
+  const backdrop = createElement('div')
+  backdrop.className = 'dialogplus--backdrop'
+  container.appendChild(backdrop)
+
+  const dialog = createElement('div')
+  dialog.className = 'dialogplus--dialog'
+  container.appendChild(dialog)
+
+  const content = createElement('div')
+  content.className = 'dialogplus--content'
+  dialog.appendChild(content)
+
+  return { container, backdrop, dialog, content }
 }

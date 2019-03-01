@@ -1,6 +1,3 @@
-import css from './dialogplus-core-plugin-style.css'
-import { ensureCss } from './helpers/ensure-css'
-
 export function dialogplusCorePluginCancellers(Super) {
   return class extends Super {
     static optionDefaults = {
@@ -8,9 +5,8 @@ export function dialogplusCorePluginCancellers(Super) {
       cancelOnBackdropClick: false,
     }
 
-    _create() {
-      super._create()
-      ensureCss(css)
+    constructor(options) {
+      super(options)
       this.elements.backdrop.addEventListener('click', () => {
         if (this.____optionCancelOnBackdropClick) {
           this.cancel('backdrop-click')
