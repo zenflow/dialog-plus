@@ -1,4 +1,4 @@
-.dialogplus--container {}
+.dialogplus--root {}
 
 .dialogplus--backdrop {
   background: rgba(0,0,0,0.2);
@@ -17,6 +17,7 @@
 }
 
 .dialogplus--content {
+  /* do make this the point to collapse content for scrolling */
   /*
   this should be overridden by dialogplus-plugin-icons.css
   if text is red & bold, something is wrong

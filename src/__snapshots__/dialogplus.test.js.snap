@@ -2,7 +2,7 @@
 
 exports[`Dialogplus Dialogplus.fire({content}) 1`] = `
 <div
-  class="dialogplus--container"
+  class="dialogplus--root"
 >
   <div
     class="dialogplus--backdrop"

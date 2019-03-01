@@ -65,7 +65,7 @@ export class DialogplusCoreBase {
     ensureCss(css)
     // TODO: dry
     const container = createElement('div')
-    container.className = 'dialogplus--container'
+    container.className = 'dialogplus--root'
     documentBody.appendChild(container)
 
     const backdrop = createElement('div')
