@@ -13,13 +13,7 @@ const patch = init([
   snabbdomModuleEventlisteners,
 ])
 
-let vnode = render()
-patch(document.getElementById('main'), vnode)
-function myPatch(next) {
-  vnode = patch(vnode, next)
-}
-
-let selectedExample = null
+let selectedExample = examples[0]
 function render() {
   const items = examples.map(example => {
     return h('li', [
@@ -39,14 +33,25 @@ function render() {
 
 function openExample(example) {
   selectedExample = example
-  myPatch(render())
+  patchVnode(render())
 }
 
 function runExample({ id, fn }) {
   console.log(`"${id}": started`)
-  fn()
-    .catch(console.error)
-    .then(() => {
+  const fnResult = fn()
+  if (
+    typeof fnResult === 'object' &&
+    typeof fnResult.catch === 'function' &&
+    typeof fnResult.then === 'function'
+  ) {
+    fnResult.catch(console.error).then(() => {
       console.log(`"${id}": finished`)
     })
+  }
+}
+
+let vnode = render()
+patch(document.getElementById('main'), vnode)
+function patchVnode(next) {
+  vnode = patch(vnode, next)
 }
