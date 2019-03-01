@@ -43,6 +43,12 @@ export class DialogplusCoreBase {
     this._render(this.options) // TODO: assert nothing accesses `this.options` during this call ?
     this.hadFirstRender = true
   }
+  complete(result) {
+    // TODO: assert valid state for completion
+    this.result = result
+    this._hide(this)
+    resolveDeferred(this)
+  }
   cancel(reason) {
     // TODO: assert valid state for cancellation
     this.cancelReason = reason
