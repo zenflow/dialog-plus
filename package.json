@@ -35,6 +35,7 @@
     "rollup-plugin-node-resolve": "^4.0.0",
     "rollup-plugin-postcss": "^2.0.0",
     "rollup-plugin-terser": "^4.0.0",
+    "snabbdom": "0.7.3",
     "zenflow-lint-js": "^2.0.0"
   },
   "scripts": {

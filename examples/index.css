@@ -6,8 +6,12 @@ li {
   font-size: x-large;
   font-weight: bold;
 }
-a {
+button {
   color: inherit;
+  font-size: inherit;
+  font-weight: bold;
+  background: none;
+  cursor: pointer;
 }
 /* TODO: add link-icon.png to <a> elements */
 pre {
