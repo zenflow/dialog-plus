@@ -1,11 +1,14 @@
 # TODO
 
 ## top
-- update yarn version in .travis.yml
+-- FIX FUCKING RENDER TIMING
 - add onComplete vs onCancel (and onCreate, onRender, onHide, onDestroy)
+- `styles` option (in core-base)
+
+- in examples, use src so build doesn't need to always run too
+- update yarn version in .travis.yml
 - add back es modules
 - some tests!
-- `styles` option (in core-base)
 - preloading & postloading states (in core-base)
 - take all relevant functionality from `dialog-polyfill` & sweetalerts
   - tab-key trap
