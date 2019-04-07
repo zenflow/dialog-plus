@@ -1,11 +1,14 @@
-import { MyDialog } from './my-dialog'
+import { Dialogplus } from '../dist/dialogplus.cjs'
+
+window.Dialogplus = Dialogplus
 
 export const examples = [
   {
     id: 'invokers',
     fn() {
-      // TODO
+      const MyDialog = Dialogplus.withOptions({ cancelOnBackdropClick: true })
       return MyDialog.make('custom content')
+      // TODO: show more invokers
     },
   },
   {
@@ -18,26 +21,23 @@ export const examples = [
             .join(' ... '),
         )
         .join('<br/>')
-      return MyDialog.create({ content })
+      return Dialogplus.create({ content })
     },
   },
   {
     id: 'cancellers',
     fn() {
-      const dialog = MyDialog.create({
-        content: 'wait a couple seconds...',
-        cancelOnBackdropClick: false,
-      })
+      const dialog = Dialogplus.make('wait a couple seconds...')
       setTimeout(() => dialog.cancel('my-timeout'), 2000)
-      return dialog
-        .then(result =>
-          MyDialog.make(
+      return dialog.then(result =>
+        Dialogplus.create({
+          cancelOnBackdropClick: true,
+          content:
             'result: ' +
-              JSON.stringify(result) +
-              '<hr/>now click the backdrop...',
-          ),
-        )
-        .then(result => MyDialog.make('result: ' + JSON.stringify(result)))
+            JSON.stringify(result) +
+            '<hr/>now click the backdrop...',
+        }).then(result => Dialogplus.make('result: ' + JSON.stringify(result))),
+      )
     },
   },
 ]

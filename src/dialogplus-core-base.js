@@ -3,15 +3,13 @@ import { ensureCss } from './helpers/ensure-css'
 import { assert } from './helpers/assert'
 import { mergeOptions } from './helpers/merge-options'
 import { createDeferred } from './helpers/create-deferred'
-
-const createElement = document.createElement.bind(document)
-const documentBody = document.body
+import { patch, h } from './helpers/snabbdom'
 
 export class DialogplusCoreBase {
   // static properties & methods
   static optionDefaults = {
     content: '',
-    getResolvedValue: ({ cancelReason }) => ({ cancelReason }),
+    getResolvedValue: ({ result, canceled }) => ({ result, canceled }),
   }
   // TODO: static plugins = [] ? when firing Dialog.withPlugins(), assert correct dependencies installed first?
   // TODO: attach this `meta` to instance prototype also?
@@ -26,36 +24,45 @@ export class DialogplusCoreBase {
     // is this technique gonna work? find that sweetalert2 issue i had
   }
 
+  ____deferred = createDeferred()
+  ____patchTarget = getInsertedElement()
+  options = undefined
+  container = undefined
+  result = undefined
+  canceled = undefined
+  isDestroying = false
+  isDestroyed = false
+
   constructor(options) {
     ensureCss(css)
-    this.____deferred = createDeferred()
-    this.elements = getElements()
     this.options = mergeOptions(this.constructor.optionDefaults, options)
-    Promise.resolve().then(() => this.render()) // TODO: fix hack for problem of rendering before child class initiation
+    this.render()
+    // Promise.resolve().then(() => this.render()) // TODO: fix hack for problem of rendering before child class initiation
   }
 
   // "final" and public methods
   // TODO: assert "final" prototype methods (and constructor) are not extended/overridden?
   //    decorator for "sealed" constructor & methods?
   setOptions(options = {}) {
+    // TODO: convenience if typeof options === 'function' {this.options = options(this.options)}
     this.options = mergeOptions(this.options, options)
     this.render()
   }
   render() {
-    this._render(this.options) // TODO: assert nothing accesses `this.options` during this call ?
-    this.hasRendered = true
+    const rendered = this._renderRoot()
+    patch(this.____patchTarget, rendered)
+    this.____patchTarget = rendered
+    this.container = rendered
   }
   complete(result) {
-    // TODO: assert valid state for completion
-    this.result = result
-    this._hide(this)
-    resolveDeferred(this)
+    destroy.call(this, () => {
+      this.result = result
+    })
   }
-  cancel(reason) {
-    // TODO: assert valid state for cancellation
-    this.cancelReason = reason
-    this._hide(this)
-    resolveDeferred(this)
+  cancel(canceled) {
+    destroy.call(this, () => {
+      this.canceled = canceled
+    })
   }
   then(onFulfilled, onRejected) {
     return this.____deferred.promise.then(onFulfilled, onRejected)
@@ -68,51 +75,52 @@ export class DialogplusCoreBase {
   }
 
   // "protected" methods
-  _render({ content, getResolvedValue, ...rest }) {
-    this.elements.content.innerHTML = String(content)
-    this.____optionGetResolvedValue = getResolvedValue
-
-    // make sure no options were unused
-    assert(
-      !Object.keys(rest).length,
-      'Unknown option(s): ' + Object.keys(rest).join(', '),
+  _renderRoot() {
+    // TODO: rename "root" to "container"
+    return h(
+      'div.dialogplus--root',
+      { class: { 'dialogplus--isDestroying': this.isDestroying } },
+      this.isDestroyed ? [] : [this._renderBackdrop(), this._renderDialog()],
     )
   }
-  _hide() {
-    // TODO: this.isHiding = true ... this.isHiding = false; this.isHidden = true
-    this.elements.container.style.display = 'none' // TODO: use a classname and css to acheive this
-    // TODO: this.elements.dialog.addEventListener('animationend', () => this._destroy())
-    // TODO: fire onHide *after* this function is called
+  _renderBackdrop() {
+    return h('div.dialogplus--backdrop')
   }
-  _destroy() {
-    this.isDestroyed = true
-    documentBody.removeChild(this.elements.container)
-    // TODO: fire onDestroy *after* this function is called
+  _renderDialog() {
+    return h('div.dialogplus--dialog', [this._renderContent()])
+  }
+  _renderContent() {
+    return h('div.dialogplus--content', {
+      props: { innerHTML: this.options.content },
+    })
   }
 }
 
 // "private" methods
-function resolveDeferred(self) {
-  self.resolvedValue = self.____optionGetResolvedValue(self)
-  self.____deferred.resolve(self.resolvedValue)
+
+function getInsertedElement() {
+  const element = document.createElement('div')
+  document.body.appendChild(element)
+  return element
 }
-function getElements() {
-  // TODO: dry
-  const container = createElement('div')
-  container.className = 'dialogplus--root'
-  documentBody.appendChild(container)
 
-  const backdrop = createElement('div')
-  backdrop.className = 'dialogplus--backdrop'
-  container.appendChild(backdrop)
+function destroy(cb) {
+  assert(!this.isDestroying)
+  assert(!this.isDestroyed)
 
-  const dialog = createElement('div')
-  dialog.className = 'dialogplus--dialog'
-  container.appendChild(dialog)
+  cb()
 
-  const content = createElement('div')
-  content.className = 'dialogplus--content'
-  dialog.appendChild(content)
+  const resolvedValue = this.options.getResolvedValue.call(null, this)
+  this.____deferred.resolve(resolvedValue)
 
-  return { container, backdrop, dialog, content }
+  this.isDestroying = true
+  this.render()
+
+  this.____patchTarget.elm.addEventListener('animationend', () => {
+    // TODO: wait for other animations to end?
+    this.isDestroying = false
+    this.isDestroyed = true
+    this.render()
+    document.body.removeChild(this.____patchTarget.elm)
+  })
 }

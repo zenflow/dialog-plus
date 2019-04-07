@@ -18,7 +18,10 @@ export function dialogplusCorePluginInvokers(Super) {
         options[optionName] = args[index]
       })
       if (args.length > this.argMap.length) {
-        Object.assign(options, args[this.argMap.length])
+        const unmappedArg = args[this.argMap.length]
+        if (typeof unmappedArg === 'object') {
+          Object.assign(options, unmappedArg)
+        }
       }
       return new this(options)
     }

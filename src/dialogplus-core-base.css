@@ -6,6 +6,9 @@
   bottom: 0;
   left: 0;
 }
+.dialogplus--root.dialogplus--isDestroying {
+  /* TODO: need animation to complete destruction? */
+}
 
 .dialogplus--backdrop {
   width: 100%;
